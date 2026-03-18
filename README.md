@@ -44,7 +44,7 @@ UI automation testing project. Leverages the latest Selenium features with drive
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/murashovilya/selenium-ui-testing.git
+git clone https://github.com/qam1s/selenium-ui-testing.git
 cd selenium-ui-testing
 ```
 ### 2. Install Dependencies
