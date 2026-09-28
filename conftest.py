@@ -43,9 +43,7 @@ def _browsers() -> list[str]:
 
 @pytest.fixture(scope="function", params=_browsers())
 def driver(request: pytest.FixtureRequest) -> Generator[WebDriver, None, None]:
-    driver = DriverFactory.get_driver(
-        grid=bool(os.getenv("GRID")), browser=request.param
-    )
+    driver = DriverFactory.get_driver(browser=request.param)
     request.node.stash[DRIVER_KEY] = driver
     yield driver
     driver.quit()

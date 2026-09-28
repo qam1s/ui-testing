@@ -13,7 +13,6 @@ UI automation testing project. Leverages the latest Selenium features with drive
 
 ## ✨ Key Features
 
-- **Selenium GRID**: Uses Selenium GRID
 - **Allure**: Reporting and analytics for test results
 - **Cross-Browser Testing**: Support for Chrome, Firefox and Edge
 - **Page Object Pattern**: Maintainable and reusable test code structure
@@ -25,7 +24,7 @@ UI automation testing project. Leverages the latest Selenium features with drive
 
 | Category | Technologies |
 |----------|--------------|
-| **Test Automation** | Selenium WebDriver (GRID) |
+| **Test Automation** | Selenium WebDriver |
 | **Programming Language** | Python |
 | **Testing Framework** | pytest |
 | **Package Management** | uv |

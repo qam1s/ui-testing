@@ -11,16 +11,10 @@ WebDriverOptions = Union[ChromeOptions, FirefoxOptions, EdgeOptions]
 
 
 class DriverFactory:
-    GRID_URL = os.getenv("GRID_URL", "http://localhost:4444")
-
     @staticmethod
-    def get_driver(grid: bool, browser: str) -> WebDriver:
+    def get_driver(browser: str) -> WebDriver:
         options = DriverFactory._options(browser)
         DriverFactory._arguments(options)
-        if grid:
-            return webdriver.Remote(
-                command_executor=DriverFactory.GRID_URL, options=options
-            )
         return DriverFactory._driver(browser, options)
 
     @staticmethod
