@@ -3,11 +3,10 @@ from typing import Union, cast
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.remote.webdriver import WebDriver
 
-WebDriverOptions = Union[ChromeOptions, FirefoxOptions, EdgeOptions]
+WebDriverOptions = Union[ChromeOptions, FirefoxOptions]
 
 
 class DriverFactory:
@@ -24,8 +23,6 @@ class DriverFactory:
                 return ChromeOptions()
             case "firefox":
                 return FirefoxOptions()
-            case "edge":
-                return EdgeOptions()
             case _:
                 raise ValueError(f"Invalid browser name: {browser}")
 
@@ -44,7 +41,5 @@ class DriverFactory:
                 return webdriver.Chrome(cast(ChromeOptions, options))
             case "firefox":
                 return webdriver.Firefox(cast(FirefoxOptions, options))
-            case "edge":
-                return webdriver.Edge(cast(EdgeOptions, options))
             case _:
                 raise ValueError(f"Invalid browser name: {browser}")

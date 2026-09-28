@@ -14,7 +14,7 @@ UI automation testing project. Leverages the latest Selenium features with drive
 ## ✨ Key Features
 
 - **Allure**: Reporting and analytics for test results
-- **Cross-Browser Testing**: Support for Chrome, Firefox and Edge
+- **Cross-Browser Testing**: Support for Chrome and Firefox
 - **Page Object Pattern**: Maintainable and reusable test code structure
 - **Parallel Execution**: Distributed testing for faster results
 - **Headless Execution**: Support for headless browser testing
