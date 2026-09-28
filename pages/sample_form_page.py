@@ -22,23 +22,23 @@ class SampleFormPage(BasePage):
         self.REGISTER_BUTTON = (By.XPATH, "//div/button")
         self.SUCCESS_MESSAGE = (By.ID, "successMessage")
 
-    @allure.step("Ввести {first_name} в поле First Name")
+    @allure.step("Enter {first_name} in First Name field")
     def enter_first_name(self, first_name: str) -> None:
         self.fill_field(self.FIRST_NAME_FIELD, first_name)
 
-    @allure.step("Ввести {last_name} в поле Last Name")
+    @allure.step("Enter {last_name} in Last Name field")
     def enter_last_name(self, last_name: str) -> None:
         self.fill_field(self.LAST_NAME_FIELD, last_name)
 
-    @allure.step("Ввести {email} в поле Email")
+    @allure.step("Enter {email} in Email field")
     def enter_email(self, email: str) -> None:
         self.fill_field(self.EMAIL_FIELD, email)
 
-    @allure.step("Ввести {password} в поле Password")
+    @allure.step("Enter {password} in Password field")
     def enter_password(self, password: str) -> None:
         self.fill_field(self.PASSWORD_FIELD, password)
 
-    @allure.step("Выбрать чекбокс Sports в блоке Hobbies")
+    @allure.step("Select Sports checkbox in Hobbies block")
     def select_sports_hobby(self) -> None:
         self.click(self.SPORTS_CHECKBOX)
 
@@ -49,16 +49,16 @@ class SampleFormPage(BasePage):
         ]
         return max(hobbies_list, key=len)
 
-    @allure.step("Выбрать случайный пол в выпадающем списке Gender")
+    @allure.step("Select random gender in Gender dropdown")
     def select_random_gender(self) -> None:
         gender = random.choice(["male", "female", "other"])
         self.select(self.GENDER_DROPDOWN_LIST).select_by_value(gender)
 
-    @allure.step("Ввести {text} в поле About Yourself")
+    @allure.step("Enter {text} in About Yourself field")
     def enter_about_yourself(self, text: str) -> None:
         self.fill_field(self.ABOUT_YOURSELF_TEXTAREA, text)
 
-    @allure.step("Нажать на кнопку Register")
+    @allure.step("Click Register button")
     def click_register_button(self) -> None:
         self.click(self.REGISTER_BUTTON)
 

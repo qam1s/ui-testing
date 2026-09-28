@@ -12,12 +12,12 @@ class CustomerLoginPage(BasePage):
         self.YOUR_NAME_DROPDOWN_LIST = (By.ID, "userSelect")
         self.LOGIN_BUTTON = (By.XPATH, "//button[@type='submit']")
 
-    @allure.step("Выбрать пользователя")
+    @allure.step("Select customer")
     def select_customer(self, customer: str) -> None:
         self.select(
             self.YOUR_NAME_DROPDOWN_LIST
         ).select_by_visible_text(customer)
 
-    @allure.step("Нажать кнопку Login")
+    @allure.step("Click Login button")
     def click_login_button(self) -> None:
         self.click(self.LOGIN_BUTTON)

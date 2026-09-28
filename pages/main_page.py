@@ -104,15 +104,15 @@ class MainPage(BasePage):
             self.find_element(self.MOST_POPULAR_COURSES_BLOCK)
         ).perform()
 
-    @allure.step("Нажать на кнопку Назад в блоке Most Popular Courses")
+    @allure.step("Click Back button in Most Popular Courses block")
     def click_previous_most_popular_course_button(self) -> None:
         self.click(self.PREVIOUS_MOST_POPULAR_COURSE_BUTTON)
 
-    @allure.step("Нажать на кнопку Вперед в блоке Most Popular Courses")
+    @allure.step("Click Forward button in Most Popular Courses block")
     def click_next_most_popular_course_button(self) -> None:
         self.click(self.NEXT_MOST_POPULAR_COURSE_BUTTON)
 
-    @allure.step("Нажать на кнопку Lifetime Membership в меню All Courses")
+    @allure.step("Click Lifetime Membership button in All Courses menu")
     def click_lifetime_membership_button(self) -> None:
         self.action.move_to_element(self.find_element(self.ALL_COURSES_BUTTON)).pause(
             1

@@ -18,13 +18,13 @@ class TestMainPage:
         main_page.selenium_course_block_is_displayed()
         main_page.footer_is_displayed()
 
-    @allure.title("Проверка хедера")
+    @allure.title("Check header")
     def test_check_header(self, main_page: MainPage):
         contacts = main_page.find_header().get_attribute("textContent")
         for contact in main_page.HEADER_CONTACTS:
-            assert contact in contacts, f"Контакта {contact} нет в хедере"
+            assert contact in contacts, f"Contact {contact} is missing in header"
 
-    @allure.title("Проверка кнопок навигации в блоке с популярными курсами")
+    @allure.title("Check navigation buttons in Most Popular Courses block")
     def test_check_most_popular_courses_block(self, main_page: MainPage):
         main_page.move_to_most_popular_courses_block()
         active_course_title = (
@@ -35,7 +35,7 @@ class TestMainPage:
             main_page.find_next_course_in_most_popular_courses_block().text
         )
         assert active_course_title == next_course_title, (
-            "Кнопка навигации назад не работает"
+            "Back navigation button does not work"
         )
         main_page.open_page()
         main_page.move_to_most_popular_courses_block()
@@ -47,21 +47,21 @@ class TestMainPage:
             main_page.find_previous_course_in_most_popular_courses_block().text
         )
         assert active_course_title == previous_course_title, (
-            "Кнопка навигации вперед не работает"
+            "Forward navigation button does not work"
         )
 
-    @allure.title("Проверка футера")
+    @allure.title("Check footer")
     def test_check_footer(self, main_page: MainPage):
         contacts = main_page.find_footer().get_attribute("textContent")
         for contact in main_page.FOOTER_CONTACTS:
-            assert contact in contacts, f"Контакта {contact} нет в футере"
+            assert contact in contacts, f"Contact {contact} is missing in footer"
 
-    @allure.title("Отображение меню после скроллинга")
+    @allure.title("Menu is displayed after scrolling")
     def test_menu_is_displayed_after_scrolling(self, main_page: MainPage):
         main_page.scroll_to_bottom()
         main_page.menu_is_displayed()
 
-    @allure.title("Переход на страницу Lifetime Membership через меню All Courses")
+    @allure.title("Navigate to Lifetime Membership page via All Courses menu")
     def test_click_lifetime_membership_button(
         self, main_page: MainPage, lifetime_membership_page: LifetimeMembershipPage
     ):
@@ -69,12 +69,12 @@ class TestMainPage:
         lifetime_membership_page.page_is_opened()
         title = lifetime_membership_page.get_page_title()
         assert "LIFETIME MEMBERSHIP CLUB" in title, (
-            f"Некорректный заголовок страницы: {title}"
+            f"Incorrect page title: {title}"
         )
 
-    @allure.title("Проверка блока Lifetime Membership")
+    @allure.title("Check Lifetime Membership block")
     def test_check_lifetime_membership_block(self, main_page: MainPage):
         description = main_page.find_lifetime_membership_block().text
         assert description == main_page.LIFETIME_MEMBERSHIP_BLOCK_DESCRIPTION, (
-            f"Некорректное описание блока Lifetime Membership: {description}"
+            f"Incorrect Lifetime Membership block description: {description}"
         )

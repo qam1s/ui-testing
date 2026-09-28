@@ -21,15 +21,15 @@ class SQLPage(BasePage):
     def find_login_field(self) -> WebElement:
         return self.find_element(self.LOGIN_FIELD)
 
-    @allure.step("Ввести в поле Login {login}")
+    @allure.step("Enter {login} in Login field")
     def enter_login(self, login: str) -> None:
         self.fill_field(self.LOGIN_FIELD, login)
 
-    @allure.step("Ввести в поле Password {password}")
+    @allure.step("Enter {password} in Password field")
     def enter_password(self, password: str) -> None:
         self.fill_field(self.PASSWORD_FIELD, password)
 
-    @allure.step("Нажать на кнопку Enter")
+    @allure.step("Click Enter button")
     def click_enter_button(self) -> None:
         self.click(self.ENTER_BUTTON)
 

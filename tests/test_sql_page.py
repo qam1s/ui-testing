@@ -6,10 +6,10 @@ from utils.cookies_manager import Cookies
 
 
 @allure.epic("UI")
-@allure.feature("Страница SQL")
+@allure.feature("SQL page")
 @pytest.mark.smoke
 class TestSQLPage:
-    @allure.title("Авторизация")
+    @allure.title("Authorization")
     @allure.severity(allure.severity_level.BLOCKER)
     @pytest.mark.parametrize("run", range(2))
     def test_login(self, run: int, sql_page: SQLPage):
@@ -27,15 +27,15 @@ class TestSQLPage:
         right_header_text = sql_page.find_right_header().text
         nickname_length = len(sql_page.NICKNAME)
         nickname = right_header_text[-nickname_length:]
-        assert nickname == sql_page.NICKNAME, f"Некорректный никнейм: {nickname}"
+        assert nickname == sql_page.NICKNAME, f"Incorrect nickname: {nickname}"
 
-    @allure.title("Удаление фокуса из поля Login и проверка наличия скролла")
+    @allure.title("Remove focus from Login field and check scroll presence")
     def test_remove_focus_from_login_field_and_check_scroll(self, sql_page: SQLPage):
         assert sql_page.element_is_focused(sql_page.LOGIN_FIELD), (
-            "В поле Login отсутствует фокус"
+            "Login field is not focused"
         )
         sql_page.remove_focus()
         assert not sql_page.element_is_focused(sql_page.LOGIN_FIELD), (
-            "В поле Login присутствует фокус"
+            "Login field is focused"
         )
-        assert sql_page.page_is_scrollable(), "На странице отсутствует скролл"
+        assert sql_page.page_is_scrollable(), "Page is not scrollable"

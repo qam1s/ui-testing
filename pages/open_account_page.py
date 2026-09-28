@@ -15,17 +15,17 @@ class OpenAccountPage(BankManagerLoginPage):
         self.CURRENCY_DROPDOWN_LIST = (By.ID, "currency")
         self.PROCESS_BUTTON = (By.XPATH, "//button[@type='submit']")
 
-    @allure.step("Выбрать пользователя")
+    @allure.step("Select customer")
     def select_customer(self, customer: str) -> None:
         self.select(
             self.CUSTOMER_DROPDOWN_LIST
         ).select_by_visible_text(customer)
 
-    @allure.step("Выбрать случайную валюту")
+    @allure.step("Select random currency")
     def select_random_currency(self) -> None:
         currency = random.choice(["Dollar", "Pound", "Rupee"])
         self.select(self.CURRENCY_DROPDOWN_LIST).select_by_value(currency)
 
-    @allure.step("Нажать кнопку Process")
+    @allure.step("Click Process button")
     def click_process_button(self) -> None:
         self.click(self.PROCESS_BUTTON)

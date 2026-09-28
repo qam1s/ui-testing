@@ -30,7 +30,7 @@ class DriverFactory:
             case "edge":
                 return EdgeOptions()
             case _:
-                raise ValueError(f"Некорректное название браузера: {browser}")
+                raise ValueError(f"Invalid browser name: {browser}")
 
     @staticmethod
     def _arguments(options: WebDriverOptions) -> None:
@@ -47,4 +47,4 @@ class DriverFactory:
             case "edge":
                 return webdriver.Edge(cast(EdgeOptions, options))
             case _:
-                raise ValueError(f"Некорректное название браузера: {browser}")
+                raise ValueError(f"Invalid browser name: {browser}")

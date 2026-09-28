@@ -8,11 +8,11 @@ from pages.login_page import LoginPage
 
 
 @allure.epic("UI")
-@allure.feature("Страница авторизации")
+@allure.feature("Login page")
 @pytest.mark.smoke
 class TestLoginPage:
-    @allure.story("Отображение элементов")
-    @allure.title("Отображение полей ввода")
+    @allure.story("Elements display")
+    @allure.title("Input fields are displayed")
     @allure.severity(allure.severity_level.BLOCKER)
     def test_fields_are_displayed(self, login_page: LoginPage):
         login_page.username_field_is_displayed()
@@ -21,9 +21,9 @@ class TestLoginPage:
             login_page.find_login_button().get_attribute("disabled")
         )
         assert login_button_is_disabled == "true", \
-            "Кнопка Login не задизейблена"
+            "Login button is not disabled"
 
-    @allure.title("Авторизация с валидными данными")
+    @allure.title("Login with valid credentials")
     @allure.severity(allure.severity_level.BLOCKER)
     def test_login_with_valid_credentials(self, login_page: LoginPage):
         login_page.enter_username_field("angular")
@@ -32,9 +32,9 @@ class TestLoginPage:
         login_page.click_login_button()
         message = login_page.find_success_message()
         assert message.text == "You're logged in!!", \
-            f"Некорректное сообщение: {message.text}"
+            f"Incorrect message: {message.text}"
 
-    @allure.title("Авторизация с невалидными данными")
+    @allure.title("Login with invalid credentials")
     @allure.severity(allure.severity_level.CRITICAL)
     def test_login_with_invalid_credentials(self, login_page: LoginPage):
         login_page.enter_username_field(Faker().user_name())
@@ -43,9 +43,9 @@ class TestLoginPage:
         login_page.click_login_button()
         message = login_page.find_error_message()
         assert message.text == "Username or password is incorrect", \
-            f"Некорректное сообщение: {message.text}"
+            f"Incorrect message: {message.text}"
 
-    @allure.title("Выход из аккаунта")
+    @allure.title("Logout")
     @allure.severity(allure.severity_level.CRITICAL)
     def test_logout(self, login_page: LoginPage):
         login_page.enter_username_field("angular")
@@ -56,7 +56,7 @@ class TestLoginPage:
         login_page.username_field_is_displayed()
         login_page.password_field_is_displayed()
 
-    @allure.title("Авторизация с разными данными")
+    @allure.title("Login with various credentials")
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.parametrize(
         "credentials",
@@ -74,18 +74,18 @@ class TestLoginPage:
         login_page.enter_password_field(password)
         login_page.enter_username_description_field(username)
         login_page.click_login_button()
-        time.sleep(1)  # Не успевает открыться страница успешной авторизации
+        time.sleep(1)  # Successful login page does not have time to open
         if login_page.get_page_url() == login_page.URL:
             message = login_page.find_error_message()
             assert message.text == "Username or password is incorrect", \
-                f"Некорректное сообщение: {message.text}"
+                f"Incorrect message: {message.text}"
         else:
             message = login_page.find_success_message()
             assert message.text == "You're logged in!!", \
-                f"Некорректное сообщение: {message.text}"
+                f"Incorrect message: {message.text}"
 
-    @allure.story("Отображение элементов")
-    @allure.title("Отображение заголовка поля описания имени пользователя")
+    @allure.story("Elements display")
+    @allure.title("Username description field title is displayed")
     @allure.severity(allure.severity_level.NORMAL)
     @pytest.mark.xfail
     def test_check_username_description_field_title(
@@ -93,5 +93,5 @@ class TestLoginPage:
     ):
         title = login_page.find_username_description_field_title()
         assert title.text == "Username description", \
-            f"Некорректный заголовок поля описания имени пользователя: \
+            f"Incorrect username description field title: \
                 {title.text}"

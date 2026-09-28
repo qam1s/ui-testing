@@ -18,19 +18,19 @@ class CustomersPage(BankManagerLoginPage):
         self.CUSTOMERS_NAMES = (By.XPATH, "//tbody/tr/td[1]")
 
     @allure.step(
-        "Ввести имя покупателя {customer_name} в поле Search Customer"
+        "Enter customer name {customer_name} in Search Customer field"
     )
     def enter_customer_name(self, customer_name: str) -> None:
         self.fill_field(self.SEARCH_CUSTOMER_FIELD, customer_name)
 
-    @allure.step("Очистить поле Search Customer")
+    @allure.step("Clear Search Customer field")
     def clear_search_customer_field(self) -> None:
         self.clear_field(self.SEARCH_CUSTOMER_FIELD)
 
     def delete_customer_button_is_displayed(self) -> None:
         self.element_is_displayed(self.DELETE_CUSTOMER_BUTTON)
 
-    @allure.step("Нажать кнопку Delete Customer")
+    @allure.step("Click Delete Customer button")
     def click_delete_customer_button(self) -> None:
         self.click(self.DELETE_CUSTOMER_BUTTON)
 
