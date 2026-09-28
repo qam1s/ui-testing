@@ -2,10 +2,10 @@ import allure
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
-from pages.bank_manager_login_page import BankManagerLoginPage
+from pages.base_page import BasePage
 
 
-class CustomersPage(BankManagerLoginPage):
+class CustomersPage(BasePage):
     def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
         self.URL = "https://www.way2automation.com/angularjs-protractor/banking/#/manager/list"  # noqa
@@ -27,8 +27,8 @@ class CustomersPage(BankManagerLoginPage):
     def clear_search_customer_field(self) -> None:
         self.clear_field(self.SEARCH_CUSTOMER_FIELD)
 
-    def delete_customer_button_is_displayed(self) -> None:
-        self.element_is_displayed(self.DELETE_CUSTOMER_BUTTON)
+    def is_delete_customer_button_displayed(self) -> bool:
+        return self.is_element_displayed(self.DELETE_CUSTOMER_BUTTON)
 
     @allure.step("Click Delete Customer button")
     def click_delete_customer_button(self) -> None:

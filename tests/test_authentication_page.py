@@ -1,6 +1,10 @@
 import allure
 import pytest
 
+from data.test_data import (
+    HTTPWATCH_PASSWORD,
+    HTTPWATCH_USERNAME,
+)
 from pages.authentication_page import AuthenticationPage
 
 
@@ -11,12 +15,13 @@ from pages.authentication_page import AuthenticationPage
 class TestAuthenticationPage:
     @allure.title("Authentication")
     def test_authentication(self, authentication_page: AuthenticationPage):
+        authentication_page.open_page()
         authentication_page.click_display_image_button()
-        authentication_page.open_image_page()
-        authentication_page.authenticated_image_is_displayed()
-        image_attribute = str(
-            authentication_page.find_authenticated_image().get_attribute("src")
+        authentication_page.open_image_page(
+            HTTPWATCH_USERNAME, HTTPWATCH_PASSWORD
         )
-        assert authentication_page.CREDENTIALS in image_attribute, (
-            f"Incorrect image: {image_attribute}"
+        assert authentication_page.is_authenticated_image_displayed()
+        image_src = authentication_page.get_authenticated_image_src()
+        assert f"{HTTPWATCH_USERNAME}:{HTTPWATCH_PASSWORD}" in image_src, (
+            f"Incorrect image: {image_src}"
         )

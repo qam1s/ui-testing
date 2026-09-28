@@ -12,11 +12,12 @@ from pages.alert_page import AlertPage
 class TestAlertPage:
     @allure.title("Enter text in alert")
     def test_enter_text_in_alert(self, alert_page: AlertPage):
+        alert_page.open_page()
         alert_page.click_input_alert_button()
         alert_page.switch_to_input_alert_iframe()
         alert_page.click_display_alert_button()
         alert_page.enter_text_in_alert(text := Faker().name())
-        alert_text = alert_page.find_alert_text().text
+        alert_text = alert_page.get_alert_text()
         assert alert_text == f"Hello {text}! How are you today?", (
             f"Incorrect alert text: {alert_text}"
         )

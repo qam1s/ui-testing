@@ -6,7 +6,12 @@ import pytest
 from dotenv import load_dotenv
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from data.test_data import Credentials, Customer
+from data.test_data import (
+    VALID_LOGIN_PASSWORD,
+    VALID_LOGIN_USERNAME,
+    Credentials,
+    Customer,
+)
 from pages.add_customer_page import AddCustomerPage
 from pages.alert_page import AlertPage
 from pages.authentication_page import AuthenticationPage
@@ -27,16 +32,21 @@ from utils.driver_factory import DriverFactory
 
 load_dotenv()
 
-BROWSERS = os.getenv("BROWSERS")
-# DRIVER_KEY = pytest.StashKey[WebDriver]()
+DRIVER_KEY = pytest.StashKey[WebDriver]()
 
 
-@pytest.fixture(params=BROWSERS.split(",") if BROWSERS else ["chrome"], scope="session")
+def _browsers() -> list[str]:
+    raw = os.getenv("BROWSERS", "")
+    browsers = [browser.strip() for browser in raw.split(",") if browser.strip()]
+    return browsers or ["chrome"]
+
+
+@pytest.fixture(scope="function", params=_browsers())
 def driver(request: pytest.FixtureRequest) -> Generator[WebDriver, None, None]:
     driver = DriverFactory.get_driver(
-        grid=True if os.getenv("GRID") else False, browser=request.param
+        grid=bool(os.getenv("GRID")), browser=request.param
     )
-    request.node.driver = driver
+    request.node.stash[DRIVER_KEY] = driver
     yield driver
     driver.quit()
 
@@ -44,27 +54,32 @@ def driver(request: pytest.FixtureRequest) -> Generator[WebDriver, None, None]:
 @pytest.hookimpl(tryfirst=True)
 def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo) -> None:
     if call.when == "call" and call.excinfo is not None:
-        driver = item.driver  # type: ignore
-        allure.attach(
-            driver.get_screenshot_as_png(),
-            "screenshot",
-            allure.attachment_type.PNG,
-        )
+        driver = item.stash.get(DRIVER_KEY, None)
+        if driver is not None:
+            try:
+                allure.attach(
+                    driver.get_screenshot_as_png(),
+                    "screenshot",
+                    allure.attachment_type.PNG,
+                )
+            except Exception:
+                pass
 
 
-@pytest.fixture(scope="session")
-def customer(request: pytest.FixtureRequest) -> Customer:
-    if not hasattr(request.session, "created_customer"):
-        request.session.created_customer = Customer()  # type: ignore
-    return request.session.created_customer  # type: ignore
+@pytest.fixture(scope="function")
+def customer() -> Customer:
+    return Customer()
 
 
 @pytest.fixture
 def credentials(request: pytest.FixtureRequest) -> tuple[str, str]:
-    if request.param == "wrong_credentials":
+    param = getattr(
+        request, "param", (VALID_LOGIN_USERNAME, VALID_LOGIN_PASSWORD)
+    )
+    if param == "wrong_credentials":
         credentials = Credentials()
         return credentials.username, credentials.password
-    return request.param
+    return param
 
 
 # pages
@@ -72,9 +87,7 @@ def credentials(request: pytest.FixtureRequest) -> tuple[str, str]:
 
 @pytest.fixture
 def main_page(driver: WebDriver) -> MainPage:
-    main_page = MainPage(driver)
-    main_page.open_page()
-    return main_page
+    return MainPage(driver)
 
 
 @pytest.fixture
@@ -84,90 +97,69 @@ def lifetime_membership_page(driver: WebDriver) -> LifetimeMembershipPage:
 
 @pytest.fixture
 def login_page(driver: WebDriver) -> LoginPage:
-    login_page = LoginPage(driver)
-    login_page.open_page()
-    return login_page
+    return LoginPage(driver)
 
 
 @pytest.fixture
 def sql_page(driver: WebDriver) -> SQLPage:
-    sql_page = SQLPage(driver)
-    sql_page.open_page()
-    return sql_page
+    return SQLPage(driver)
 
 
 @pytest.fixture
 def droppable_page(driver: WebDriver) -> DroppablePage:
-    droppable_page = DroppablePage(driver)
-    droppable_page.open_page()
-    return droppable_page
+    return DroppablePage(driver)
 
 
 @pytest.fixture
 def frames_and_windows_page(driver: WebDriver) -> FramesAndWindowsPage:
-    frames_and_windows_page = FramesAndWindowsPage(driver)
-    frames_and_windows_page.open_page()
-    return frames_and_windows_page
+    return FramesAndWindowsPage(driver)
 
 
 @pytest.fixture
 def alert_page(driver: WebDriver) -> AlertPage:
-    alert_page = AlertPage(driver)
-    alert_page.open_page()
-    return alert_page
+    return AlertPage(driver)
 
 
 @pytest.fixture
 def authentication_page(driver: WebDriver) -> AuthenticationPage:
-    authentication_page = AuthenticationPage(driver)
-    authentication_page.open_page()
-    return authentication_page
+    return AuthenticationPage(driver)
 
 
 @pytest.fixture
 def banking_app_page(driver: WebDriver) -> BankingAppPage:
-    banking_app_page = BankingAppPage(driver)
-    banking_app_page.open_page()
-    return banking_app_page
+    return BankingAppPage(driver)
 
 
 @pytest.fixture
 def sample_form_page(driver: WebDriver) -> SampleFormPage:
-    sample_form_page = SampleFormPage(driver)
-    return sample_form_page
+    return SampleFormPage(driver)
 
 
 @pytest.fixture
 def bank_manager_login_page(driver: WebDriver) -> BankManagerLoginPage:
-    bank_manager_login_page = BankManagerLoginPage(driver)
-    return bank_manager_login_page
+    return BankManagerLoginPage(driver)
 
 
 @pytest.fixture
 def add_customer_page(driver: WebDriver) -> AddCustomerPage:
-    add_customer_page = AddCustomerPage(driver)
-    return add_customer_page
+    return AddCustomerPage(driver)
 
 
 @pytest.fixture
 def open_account_page(driver: WebDriver) -> OpenAccountPage:
-    open_account_page = OpenAccountPage(driver)
-    return open_account_page
+    return OpenAccountPage(driver)
 
 
 @pytest.fixture
 def customer_login_page(driver: WebDriver) -> CustomerLoginPage:
-    customer_login_page = CustomerLoginPage(driver)
-    return customer_login_page
+    return CustomerLoginPage(driver)
 
 
 @pytest.fixture
 def customer_account_page(driver: WebDriver) -> CustomerAccountPage:
-    customer_account_page = CustomerAccountPage(driver)
-    return customer_account_page
+    return CustomerAccountPage(driver)
 
 
 @pytest.fixture
 def customers_page(driver: WebDriver) -> CustomersPage:
-    customers_page = CustomersPage(driver)
-    return customers_page
+    return CustomersPage(driver)

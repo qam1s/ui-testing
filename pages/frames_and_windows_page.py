@@ -15,8 +15,8 @@ class FramesAndWindowsPage(BasePage):
     def switch_to_frame(self) -> None:
         self.driver.switch_to.frame(self.find_element(self.IFRAME))
 
-    def new_browser_tab_link_is_displayed(self) -> None:
-        self.element_is_displayed(self.NEW_BROWSER_TAB_LINK)
+    def is_new_browser_tab_link_displayed(self) -> bool:
+        return self.is_element_displayed(self.NEW_BROWSER_TAB_LINK)
 
     @allure.step("Click on New Browser Tab link")
     def click_new_browser_tab_link(self) -> None:

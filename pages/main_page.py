@@ -1,7 +1,7 @@
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base_page import BasePage
 
@@ -66,38 +66,41 @@ class MainPage(BasePage):
             "seleniumcoaching@gmail.com",
         ]
 
-    def find_header(self) -> WebElement:
-        return self.find_element(self.HEADER)
+    def get_header_text(self) -> str:
+        return str(self.find_element(self.HEADER).get_attribute("textContent"))
 
-    def header_is_displayed(self) -> None:
-        self.element_is_displayed(self.HEADER)
+    def is_header_displayed(self) -> bool:
+        return self.is_element_displayed(self.HEADER)
 
-    def find_menu(self) -> WebElement:
-        return self.find_element(self.MENU)
+    def get_menu_text(self) -> str:
+        return self.find_element(self.MENU).text
 
-    def menu_is_displayed(self) -> None:
-        self.element_is_displayed(self.MENU)
+    def is_menu_displayed(self) -> bool:
+        return self.is_element_displayed(self.MENU)
 
-    def find_lifetime_membership_block(self) -> WebElement:
-        return self.find_element(self.LIFETIME_MEMBERSHIP_BLOCK)
+    def get_lifetime_membership_block_text(self) -> str:
+        return self.find_element(self.LIFETIME_MEMBERSHIP_BLOCK).text
 
-    def reg_button_is_displayed(self) -> None:
-        self.element_is_displayed(self.REG_BUTTON)
+    def is_reg_button_displayed(self) -> bool:
+        return self.is_element_displayed(self.REG_BUTTON)
 
-    def selenium_course_block_is_displayed(self) -> None:
-        self.element_is_displayed(self.SELENIUM_COURSE_BLOCK)
+    def is_selenium_course_block_displayed(self) -> bool:
+        return self.is_element_displayed(self.SELENIUM_COURSE_BLOCK)
 
-    def find_most_popular_courses_block(self) -> list[WebElement]:
-        return self.find_elements(self.MOST_POPULAR_COURSES_BLOCK)
+    def get_active_course_title(self) -> str:
+        return self.find_element(
+            self.ACTIVE_COURSE_IN_MOST_POPULAR_COURSES_BLOCK
+        ).text
 
-    def find_active_course_in_most_popular_courses_block(self) -> WebElement:
-        return self.find_element(self.ACTIVE_COURSE_IN_MOST_POPULAR_COURSES_BLOCK)
+    def get_previous_course_title(self) -> str:
+        return self.find_element(
+            self.PREVIOUS_COURSE_IN_MOST_POPULAR_COURSES_BLOCK
+        ).text
 
-    def find_previous_course_in_most_popular_courses_block(self) -> WebElement:
-        return self.find_element(self.PREVIOUS_COURSE_IN_MOST_POPULAR_COURSES_BLOCK)
-
-    def find_next_course_in_most_popular_courses_block(self) -> WebElement:
-        return self.find_element(self.NEXT_COURSE_IN_MOST_POPULAR_COURSES_BLOCK)
+    def get_next_course_title(self) -> str:
+        return self.find_element(
+            self.NEXT_COURSE_IN_MOST_POPULAR_COURSES_BLOCK
+        ).text
 
     def move_to_most_popular_courses_block(self) -> None:
         self.action.move_to_element(
@@ -114,14 +117,16 @@ class MainPage(BasePage):
 
     @allure.step("Click Lifetime Membership button in All Courses menu")
     def click_lifetime_membership_button(self) -> None:
-        self.action.move_to_element(self.find_element(self.ALL_COURSES_BUTTON)).pause(
-            1
-        ).move_to_element(self.find_element(self.LIFETIME_MEMBERSHIP_BUTTON)).pause(
-            1
-        ).click().perform()
+        self.action.move_to_element(
+            self.find_element(self.ALL_COURSES_BUTTON)
+        ).perform()
+        self.wait.until(
+            EC.element_to_be_clickable(self.LIFETIME_MEMBERSHIP_BUTTON)
+        )
+        self.click(self.LIFETIME_MEMBERSHIP_BUTTON)
 
-    def find_footer(self) -> WebElement:
-        return self.find_element(self.FOOTER)
+    def get_footer_text(self) -> str:
+        return str(self.find_element(self.FOOTER).get_attribute("textContent"))
 
-    def footer_is_displayed(self) -> None:
-        self.element_is_displayed(self.FOOTER)
+    def is_footer_displayed(self) -> bool:
+        return self.is_element_displayed(self.FOOTER)

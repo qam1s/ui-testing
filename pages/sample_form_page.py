@@ -1,5 +1,3 @@
-import random
-
 import allure
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
@@ -42,16 +40,14 @@ class SampleFormPage(BasePage):
     def select_sports_hobby(self) -> None:
         self.click(self.SPORTS_CHECKBOX)
 
-    def get_longest_hobby(self) -> str:
-        hobbies_webelements = self.find_elements(self.HOBBIES_CHECKBOXES)
-        hobbies_list = [
-            hobby.get_attribute("value") for hobby in hobbies_webelements
+    def get_hobby_values(self) -> list[str]:
+        return [
+            str(hobby.get_attribute("value"))
+            for hobby in self.find_elements(self.HOBBIES_CHECKBOXES)
         ]
-        return max(hobbies_list, key=len)
 
-    @allure.step("Select random gender in Gender dropdown")
-    def select_random_gender(self) -> None:
-        gender = random.choice(["male", "female", "other"])
+    @allure.step("Select gender {gender} in Gender dropdown")
+    def select_gender(self, gender: str) -> None:
         self.select(self.GENDER_DROPDOWN_LIST).select_by_value(gender)
 
     @allure.step("Enter {text} in About Yourself field")
@@ -62,5 +58,5 @@ class SampleFormPage(BasePage):
     def click_register_button(self) -> None:
         self.click(self.REGISTER_BUTTON)
 
-    def success_message_is_displayed(self) -> None:
-        self.element_is_displayed(self.SUCCESS_MESSAGE)
+    def is_success_message_displayed(self) -> bool:
+        return self.is_element_displayed(self.SUCCESS_MESSAGE)

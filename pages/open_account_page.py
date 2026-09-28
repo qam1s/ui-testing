@@ -1,13 +1,11 @@
-import random
-
 import allure
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
-from pages.bank_manager_login_page import BankManagerLoginPage
+from pages.base_page import BasePage
 
 
-class OpenAccountPage(BankManagerLoginPage):
+class OpenAccountPage(BasePage):
     def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
         self.URL = "https://www.way2automation.com/angularjs-protractor/banking/#/manager/openAccount" # noqa
@@ -21,9 +19,8 @@ class OpenAccountPage(BankManagerLoginPage):
             self.CUSTOMER_DROPDOWN_LIST
         ).select_by_visible_text(customer)
 
-    @allure.step("Select random currency")
-    def select_random_currency(self) -> None:
-        currency = random.choice(["Dollar", "Pound", "Rupee"])
+    @allure.step("Select currency {currency}")
+    def select_currency(self, currency: str) -> None:
         self.select(self.CURRENCY_DROPDOWN_LIST).select_by_value(currency)
 
     @allure.step("Click Process button")

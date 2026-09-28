@@ -14,3 +14,17 @@ class Customer:
 class Credentials:
     username: str = field(default_factory=lambda: Faker().user_name())
     password: str = field(default_factory=lambda: Faker().password())
+
+
+VALID_LOGIN_USERNAME = "angular"
+VALID_LOGIN_PASSWORD = "password"
+
+SQL_USERNAME = "losoxo@azuretechtalk."
+SQL_PASSWORD = "losoxo@azuretechtalk.net"
+SQL_NICKNAME = "losoxo@azuretechtalk"
+
+HTTPWATCH_USERNAME = "httpwatch"
+HTTPWATCH_PASSWORD = "httpwatch"
+
+CURRENCIES = ("Dollar", "Pound", "Rupee")
+GENDERS = ("male", "female", "other")

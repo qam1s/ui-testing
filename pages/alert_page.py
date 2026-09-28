@@ -1,7 +1,6 @@
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base_page import BasePage
 
@@ -29,5 +28,5 @@ class AlertPage(BasePage):
     def click_display_alert_button(self) -> None:
         self.click(self.DISPLAY_ALERT_BUTTON)
 
-    def find_alert_text(self) -> WebElement:
-        return self.find_element(self.ALERT_TEXT)
+    def get_alert_text(self) -> str:
+        return self.find_element(self.ALERT_TEXT).text

@@ -1,3 +1,4 @@
+import os
 from typing import Union, cast
 
 from selenium import webdriver
@@ -10,13 +11,15 @@ WebDriverOptions = Union[ChromeOptions, FirefoxOptions, EdgeOptions]
 
 
 class DriverFactory:
+    GRID_URL = os.getenv("GRID_URL", "http://localhost:4444")
+
     @staticmethod
     def get_driver(grid: bool, browser: str) -> WebDriver:
         options = DriverFactory._options(browser)
         DriverFactory._arguments(options)
         if grid:
             return webdriver.Remote(
-                command_executor="http://localhost:4444", options=options
+                command_executor=DriverFactory.GRID_URL, options=options
             )
         return DriverFactory._driver(browser, options)
 
@@ -34,8 +37,11 @@ class DriverFactory:
 
     @staticmethod
     def _arguments(options: WebDriverOptions) -> None:
-        options.add_argument("--headless")
+        if os.getenv("HEADLESS", "true").lower() not in ("0", "false", "no"):
+            options.add_argument("--headless")
         options.add_argument("--window-size=1920,1080")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
 
     @staticmethod
     def _driver(browser: str, options: WebDriverOptions) -> WebDriver:
